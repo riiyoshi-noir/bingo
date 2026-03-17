@@ -2,8 +2,6 @@
 
 import { BingoCard as BingoCardType } from "@/lib/bingo";
 
-const HEADERS = ["B", "I", "N", "G", "O"];
-
 interface Props {
   card: BingoCardType;
   calledNumbers: number[];
@@ -15,14 +13,6 @@ export default function BingoCard({ card, calledNumbers }: Props) {
   return (
     <div className="inline-block">
       <div className="grid grid-cols-5 gap-1">
-        {HEADERS.map((h) => (
-          <div
-            key={h}
-            className="w-14 h-14 flex items-center justify-center text-2xl font-bold text-white bg-indigo-600 rounded-lg"
-          >
-            {h}
-          </div>
-        ))}
         {card.map((row, ri) =>
           row.map((num, ci) => {
             const isFree = ri === 2 && ci === 2;

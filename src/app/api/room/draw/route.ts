@@ -16,13 +16,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "ホストのみ番号を引けます" }, { status: 403 });
   }
 
-  if (game.status === "finished") {
-    return NextResponse.json({ error: "ゲームは終了しています" }, { status: 400 });
-  }
-
-  // Start game if waiting
-  if (game.status === "waiting") {
-    game.status = "playing";
+  if (game.status !== "playing") {
+    return NextResponse.json({ error: "ゲームが進行中ではありません" }, { status: 400 });
   }
 
   // Draw a number not yet called

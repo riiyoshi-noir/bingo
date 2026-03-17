@@ -39,11 +39,31 @@ export default function GameRoom({ roomId, playerId, onLeave }: Props) {
   const currentPlayer = game?.players.find((p) => p.id === playerId);
   const card = currentPlayer ? generateCard(currentPlayer.cardSeed) : null;
 
-  const handleDraw = async () => {
+  // Auto-draw: host client draws a number every 5 seconds
+  useEffect(() => {
+    if (!isHost || !game || game.status !== "playing") return;
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch("/api/room/draw", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ roomId, playerId }),
+        });
+        if (res.ok) {
+          await fetchState();
+        }
+      } catch {
+        // ignore
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isHost, game?.status, roomId, playerId, fetchState]);
+
+  const handleStart = async () => {
     setLoading(true);
     setMessage("");
     try {
-      const res = await fetch("/api/room/draw", {
+      const res = await fetch("/api/room/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ roomId, playerId }),
@@ -174,13 +194,13 @@ export default function GameRoom({ roomId, playerId, onLeave }: Props) {
 
       {/* Actions */}
       <div className="flex flex-wrap gap-3 justify-center">
-        {isHost && game.status !== "finished" && (
+        {isHost && game.status === "waiting" && (
           <button
-            onClick={handleDraw}
+            onClick={handleStart}
             disabled={loading}
             className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold text-lg hover:bg-indigo-700 disabled:opacity-50 transition-all shadow-lg hover:shadow-xl"
           >
-            {game.status === "waiting" ? "ゲーム開始 & 番号を引く" : "番号を引く"}
+            ゲーム開始
           </button>
         )}
         {game.status === "playing" && (
