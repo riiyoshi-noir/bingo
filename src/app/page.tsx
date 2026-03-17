@@ -64,7 +64,7 @@ export default function Home() {
   };
 
   if (screen === "game") {
-    return <GameRoom roomId={roomId} playerId={playerId} />;
+    return <GameRoom roomId={roomId} playerId={playerId} onLeave={() => setScreen("menu")} />;
   }
 
   return (

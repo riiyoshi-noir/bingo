@@ -9,9 +9,10 @@ import CalledNumbers from "./CalledNumbers";
 interface Props {
   roomId: string;
   playerId: string;
+  onLeave: () => void;
 }
 
-export default function GameRoom({ roomId, playerId }: Props) {
+export default function GameRoom({ roomId, playerId, onLeave }: Props) {
   const [game, setGame] = useState<GameState | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -102,7 +103,13 @@ export default function GameRoom({ roomId, playerId }: Props) {
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <div className="text-center space-y-2">
+      <div className="text-center space-y-2 relative">
+        <button
+          onClick={onLeave}
+          className="absolute left-0 top-0 px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+        >
+          退出
+        </button>
         <h1 className="text-3xl font-bold text-indigo-700">BINGO</h1>
         <div className="flex items-center justify-center gap-3">
           <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-mono font-bold">
