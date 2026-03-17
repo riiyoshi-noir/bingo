@@ -81,7 +81,7 @@ export default function Home() {
             placeholder="あなたの名前"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg text-center"
+            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg text-center text-gray-900 bg-white"
           />
 
           <button
@@ -108,7 +108,7 @@ export default function Home() {
               value={joinCode}
               onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
               maxLength={6}
-              className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg text-center font-mono tracking-widest uppercase"
+              className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg text-center font-mono tracking-widest uppercase text-gray-900 bg-white"
             />
             <button
               onClick={joinRoom}
